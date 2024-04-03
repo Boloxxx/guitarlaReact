@@ -19,7 +19,10 @@ function addToCart(item) {
     item.quantity = 1
     setCart([...cart, item])
   }
+}
 
+function removeFromCart(id) {
+  setCart(prevCart => prevCart.filter(guitar => guitar.id !== id))
 }
 
 
@@ -27,6 +30,7 @@ function addToCart(item) {
     <>
       <Header 
         cart={cart}
+        removeFromCart={removeFromCart}
       />
 
       <main className="container-xl mt-5">
