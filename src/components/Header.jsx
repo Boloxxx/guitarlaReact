@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 
-const Header = ({ cart, removeFromCart, increaseQuantity, decreaseQuantity }) => {
+const Header = ({ cart, removeFromCart, increaseQuantity, decreaseQuantity, clearCart }) => {
   // State Derivado
   const isEmpty = useMemo(() => cart.length === 0, [cart]);
   const cartTotal = useMemo(
@@ -16,7 +16,7 @@ const Header = ({ cart, removeFromCart, increaseQuantity, decreaseQuantity }) =>
             <a href="index.html">
               <img
                 className="img-fluid"
-                src="./public/img/logo.svg"
+                src="/img/logo.svg"
                 alt="imagen logo"
               />
             </a>
@@ -25,7 +25,7 @@ const Header = ({ cart, removeFromCart, increaseQuantity, decreaseQuantity }) =>
             <div className="carrito">
               <img
                 className="img-fluid"
-                src="./public/img/carrito.png"
+                src="/img/carrito.png"
                 alt="imagen carrito"
               />
 
@@ -92,7 +92,9 @@ const Header = ({ cart, removeFromCart, increaseQuantity, decreaseQuantity }) =>
                     </p>
                   </>
                 )}
-                <button className="btn btn-dark w-100 mt-3 p-2">
+                <button 
+                onClick={clearCart}
+                className="btn btn-dark w-100 mt-3 p-2">
                   Vaciar Carrito
                 </button>
               </div>
