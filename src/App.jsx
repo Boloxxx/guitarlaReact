@@ -4,33 +4,61 @@ import Header from "./components/Header";
 import { db } from "./data/db";
 
 function App() {
+  const [data, setData] = useState(db);
+  const [cart, setCart] = useState([]);
 
-const [data, setData] = useState(db)
-const [cart, setCart] = useState([])
-
-function addToCart(item) {
-  
-  const itemExist = cart.findIndex((guitar) => guitar.id === item.id)
-  if(itemExist >= 0) { // existe en el carrito
-    const updateCart = [...cart]
-    updateCart[itemExist].quantity++
-    setCart(updateCart)
-  } else {
-    item.quantity = 1
-    setCart([...cart, item])
+  function addToCart(item) {
+    const itemExist = cart.findIndex((guitar) => guitar.id === item.id);
+    if (itemExist >= 0) {
+      // existe en el carrito
+      const updateCart = [...cart];
+      updateCart[itemExist].quantity++;
+      setCart(updateCart);
+    } else {
+      item.quantity = 1;
+      setCart([...cart, item]);
+    }
   }
-}
 
-function removeFromCart(id) {
-  setCart(prevCart => prevCart.filter(guitar => guitar.id !== id))
-}
+  function removeFromCart(id) {
+    setCart((prevCart) => prevCart.filter((guitar) => guitar.id !== id));
+  }
+
+  function decreaseQuantity(id) {
+    const updateCart = cart.map((item) => {
+      if (item.id === id && item.quantity > 1) {
+        return {
+          ...item,
+          quantity: item.quantity - 1,
+        };
+      }
+      return item;
+    });
+    setCart(updateCart);
+  }
 
 
+  function increaseQuantity(id) {
+    const updateCart = cart.map((item) => {
+      if (item.id === id && item.quantity < 5) {
+        return {
+          ...item,
+          quantity: item.quantity + 1,
+        };
+      }
+      return item;
+    });
+    setCart(updateCart);
+  }
+
+  
   return (
     <>
-      <Header 
+      <Header
         cart={cart}
         removeFromCart={removeFromCart}
+        increaseQuantity={increaseQuantity}
+        decreaseQuantity={decreaseQuantity}
       />
 
       <main className="container-xl mt-5">
@@ -38,7 +66,6 @@ function removeFromCart(id) {
 
         <div className="row mt-5">
           {data.map((guitar) => {
-
             return (
               <Guitar
                 key={guitar.id}
@@ -46,7 +73,7 @@ function removeFromCart(id) {
                 setCart={setCart}
                 addToCart={addToCart}
               />
-            )
+            );
           })}
         </div>
       </main>
